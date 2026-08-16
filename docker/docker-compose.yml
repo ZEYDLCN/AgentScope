@@ -1,0 +1,61 @@
+services:
+  ollama:
+    image: ollama/ollama:latest
+    volumes: [ollama_models:/root/.ollama]
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 10s
+      retries: 12
+
+  model-init:
+    image: ollama/ollama:latest
+    depends_on:
+      ollama:
+        condition: service_healthy
+    entrypoint: ["sh", "-c", "OLLAMA_HOST=ollama:11434 ollama pull ${AG_OLLAMA_MODEL:-qwen2.5:7b-instruct-q4_K_M}"]
+    restart: "no"
+
+  api:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.api
+    depends_on:
+      ollama:
+        condition: service_healthy
+      model-init:
+        condition: service_completed_successfully
+    env_file: ../.env
+    volumes:
+      # Adlandırılmış volume yerine host bind-mount: `make bootstrap` HOST'ta
+      # (venv içinde) çalıştırılıp `./artifacts/{current,index}` üretilir;
+      # container aynı dizini doğrudan okur. Bootstrap container İÇİNDE
+      # çalıştırılamaz çünkü `scripts/` klasörü prod imajına COPY edilmez
+      # (yalnızca `src/` + `knowledge/` — bkz. Dockerfile.api).
+      - ../artifacts:/app/artifacts
+      - ../data:/app/data
+    ports: ["8000:8000"]
+    # §21.3: container root filesystem read-only; yalnızca gerçekten yazılan
+    # dizinler (embedding model cache, geçici dosyalar) tmpfs/volume ile açık.
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /app/.cache/hf
+
+  dashboard:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.dashboard
+    depends_on:
+      api:
+        condition: service_healthy
+    env_file: ../.env
+    environment:
+      AG_API_URL: "http://api:8000"
+    ports: ["8501:8501"]
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /home/appuser/.streamlit
+
+volumes:
+  ollama_models: {}

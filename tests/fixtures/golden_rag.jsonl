@@ -1,0 +1,24 @@
+{"query_id": "g001", "query": "aynı tool_name ve input_hash ile tekrarlanan araç çağrıları max_consecutive_repeats eşiği R003_repeat_burst", "relevant_docs": ["tool_loop"], "expected_type": "tool_loop"}
+{"query_id": "g002", "query": "agent bir çağrıyı tekrar tekrar planlıyor, retry mantığı backoff uygulamıyor, döngüyü durdurma runbook'u", "relevant_docs": ["tool_loop", "rb_terminate_agent"], "expected_type": "tool_loop"}
+{"query_id": "g003", "query": "veritabanı sorgu döngüsü olayı db.query zaman aşımı art arda aynı sorgu incident", "relevant_docs": ["incident_001_db_loop", "tool_loop"], "expected_type": "tool_loop"}
+{"query_id": "g004", "query": "araç kullanım politikası izin verilen tool listesi çağrı sıklığı sınırı", "relevant_docs": ["tool_usage_policy"], "expected_type": "tool_loop"}
+{"query_id": "g005", "query": "veritabanı erişim politikası hangi agent hangi tabloya sorgu atabilir yetki sınırı", "relevant_docs": ["database_policy"], "expected_type": "tool_loop"}
+{"query_id": "g006", "query": "denied_count reddedilen izin çağrıları yetkisiz kaynağa erişim denemesi", "relevant_docs": ["permission_violation"], "expected_type": "permission_violation"}
+{"query_id": "g007", "query": "yetki modeli rol tabanlı erişim kontrolü agent hangi kaynaklara erişebilir", "relevant_docs": ["permission_model"], "expected_type": "permission_violation"}
+{"query_id": "g008", "query": "dolaylı prompt injection sonrası yetkisiz erişim denemesi olayı kimlik bilgisi rotasyonu", "relevant_docs": ["incident_002_injection", "rb_credential_rotation"], "expected_type": "permission_violation"}
+{"query_id": "g009", "query": "injection_lexical_score sözlük tabanlı saldırı skoru şüpheli talimat kalıpları araç çıktısında", "relevant_docs": ["prompt_injection"], "expected_type": "prompt_injection"}
+{"query_id": "g010", "query": "kimlik bilgisi rotasyonu runbook sızdırılmış API anahtarı acil değiştirme adımları", "relevant_docs": ["rb_credential_rotation"], "expected_type": "prompt_injection"}
+{"query_id": "g011", "query": "dolaylı prompt injection olayı araç çıktısındaki gizli talimatları izleyen agent", "relevant_docs": ["incident_002_injection"], "expected_type": "prompt_injection"}
+{"query_id": "g012", "query": "agent güvenlik politikası prompt injection savunma katmanları genel ilkeler", "relevant_docs": ["agent_security"], "expected_type": "prompt_injection"}
+{"query_id": "g013", "query": "token kullanımında ani sıçrama total_tokens beklenmeyen artış tespiti", "relevant_docs": ["token_spike"], "expected_type": "token_spike"}
+{"query_id": "g014", "query": "token bütçe politikası agent başına günlük maksimum token limiti", "relevant_docs": ["token_budget_policy"], "expected_type": "token_spike"}
+{"query_id": "g015", "query": "token tükenmesi ve API aşırı kullanımı olayı maliyet artışı incident", "relevant_docs": ["incident_003_token_burn"], "expected_type": "token_spike"}
+{"query_id": "g016", "query": "hız limiti yanıtı runbook rate limit aşıldığında yapılacak adımlar", "relevant_docs": ["rb_rate_limit_response"], "expected_type": "api_abuse"}
+{"query_id": "g017", "query": "harici API hız limiti politikası dakikada maksimum istek sayısı", "relevant_docs": ["api_rate_limits"], "expected_type": "api_abuse"}
+{"query_id": "g018", "query": "API abuse aşırı harici servis çağrısı kısa sürede çok sayıda istek", "relevant_docs": ["api_abuse"], "expected_type": "api_abuse"}
+{"query_id": "g019", "query": "olağandışı araç sırası beklenmeyen tool geçiş kalıbı bigram novelty", "relevant_docs": ["unusual_tool_sequence"], "expected_type": "unusual_tool_sequence"}
+{"query_id": "g020", "query": "araç çeşitliliği düşük entropy alışılmadık sıralama tool_diversity_ratio", "relevant_docs": ["unusual_tool_sequence", "tool_usage_policy"], "expected_type": "unusual_tool_sequence"}
+{"query_id": "g021", "query": "agent sonlandırma runbook acil durdurma prosedürü ne zaman uygulanır", "relevant_docs": ["rb_terminate_agent"], "expected_type": "tool_loop"}
+{"query_id": "g022", "query": "AI agent güvenlik politikası genel çerçeve tüm anomali tipleri için ortak ilkeler", "relevant_docs": ["agent_security"], "expected_type": "prompt_injection"}
+{"query_id": "g023", "query": "veritabanı sorgu döngüsü kök neden cursor sayfalama hatası input_hash sabit kalıyor", "relevant_docs": ["tool_loop", "incident_001_db_loop"], "expected_type": "tool_loop"}
+{"query_id": "g024", "query": "izin ihlali sonrası kimlik bilgisi rotasyonu ne zaman tetiklenir hangi durumlarda", "relevant_docs": ["rb_credential_rotation", "permission_violation"], "expected_type": "permission_violation"}

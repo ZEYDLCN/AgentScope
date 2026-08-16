@@ -1,0 +1,128 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* AgentScope marka sistemi: Violet #7C5CE4 / Cyan #22D3EE / Ink #09090F —
+   bkz. logo kiti (Wordmark: DM Sans 300+700, Label/code: JetBrains Mono).
+   Metin bağlamında kullanılan --accent, kontrast için markanın ham
+   #7C5CE4'ünden biraz koyulaştırılmıştır (beyaz üzerinde 4.66:1 sınırda
+   kalıyordu); ham marka rengi logo ikonunda ve büyük yüzeylerde korunur. */
+:root {
+  --background: #f6f5fa;
+  --surface: #ffffff;
+  --surface-muted: #f0eff8;
+  --border: #e3e0ef;
+  --foreground: #12103a;
+  --muted: #5b5678;
+  --muted-foreground: #6b6588;
+
+  --accent: #6344c9;
+  --accent-foreground: #ffffff;
+  --accent-soft: #eeeafb;
+  --cyan: #0891a8;
+
+  --critical: #dc2626;
+  --critical-soft: #fef2f2;
+  --high: #ea580c;
+  --high-soft: #fff7ed;
+  --medium: #ca8a04;
+  --medium-soft: #fefce8;
+  --low: #16a34a;
+  --low-soft: #f0fdf4;
+
+  --ring: #6344c9;
+}
+
+.dark {
+  --background: #09090f;
+  --surface: #0d0e1e;
+  --surface-muted: #14152a;
+  --border: rgba(255, 255, 255, 0.09);
+  --foreground: rgba(255, 255, 255, 0.92);
+  --muted: rgba(255, 255, 255, 0.5);
+  --muted-foreground: rgba(255, 255, 255, 0.48);
+
+  --accent: #9b7fee;
+  --accent-foreground: #09090f;
+  --accent-soft: #1a1636;
+  --cyan: #22d3ee;
+
+  --critical: #f87171;
+  --critical-soft: #2a1414;
+  --high: #fb923c;
+  --high-soft: #2a1c0f;
+  --medium: #fbbf24;
+  --medium-soft: #2a2410;
+  --low: #4ade80;
+  --low-soft: #12261a;
+
+  --ring: #9b7fee;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-border: var(--border);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent-soft: var(--accent-soft);
+  --color-cyan: var(--cyan);
+
+  --color-critical: var(--critical);
+  --color-critical-soft: var(--critical-soft);
+  --color-high: var(--high);
+  --color-high-soft: var(--high-soft);
+  --color-medium: var(--medium);
+  --color-medium-soft: var(--medium-soft);
+  --color-low: var(--low);
+  --color-low-soft: var(--low-soft);
+
+  --font-sans: var(--font-dm-sans);
+  --font-mono: var(--font-jetbrains-mono);
+}
+
+* {
+  border-color: var(--border);
+}
+
+html {
+  color-scheme: light;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+/* İnce, kurumsal kaydırma çubuğu */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
+}

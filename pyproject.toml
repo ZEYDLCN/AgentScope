@@ -1,0 +1,151 @@
+[project]
+name = "agentguard"
+version = "0.1.0"
+description = "AI agent yürütmelerinde anomali tespiti, hibrit RAG ile kök neden araştırması ve yerel LLM ile kanıta dayalı soruşturma raporları üreten sistem."
+readme = "README.md"
+requires-python = ">=3.11,<3.12"
+license = { text = "MIT" }
+authors = [{ name = "ZEYDLCN" }]
+
+dependencies = [
+  "fastapi==0.115.6",
+  "uvicorn[standard]==0.32.1",
+  "pydantic==2.9.2",
+  "pydantic-settings==2.6.1",
+  "sqlalchemy==2.0.36",
+  "alembic==1.14.0",
+  "aiosqlite==0.20.0",
+  "structlog==24.4.0",
+  "prometheus-client==0.21.1",
+  "httpx==0.27.2",
+  "slowapi==0.1.9",
+  "scikit-learn==1.5.2",
+  "numpy==1.26.4",
+  "torch==2.4.1",
+  "faiss-cpu==1.8.0.post1",
+  "rank-bm25==0.2.2",
+  "sentence-transformers==3.2.1",
+  "FlagEmbedding==1.3.2",
+  "PyYAML==6.0.2",
+  "typer==0.13.1",
+  "json-repair==0.30.3",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest==8.3.3",
+  "pytest-asyncio==0.24.0",
+  "pytest-cov==6.0.0",
+  "hypothesis==6.115.6",
+  "scipy==1.14.1",  # generator testlerinde KS testi için (§10.3); ayrıca scikit-learn'ün bağımlılığı
+  "ruff==0.7.4",
+  "mypy==1.13.0",
+  "import-linter==2.1",
+  "pre-commit==4.0.1",
+  "pip-audit==2.7.3",
+  "detect-secrets==1.5.0",
+]
+dashboard = [
+  "streamlit==1.39.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/agentguard"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "UP", "B", "SIM", "RUF", "ANN", "ASYNC", "S"]
+# RUF001-003: proje dokümantasyonu ve yorumlar kasıtlı olarak Türkçe;
+# ı/ğ/ş/ç/ö/ü gibi harfler "belirsiz karakter" değil, doğal dil içeriğidir.
+ignore = ["ANN101", "ANN102", "RUF001", "RUF002", "RUF003"]
+
+[tool.ruff.lint.flake8-bugbear]
+# FastAPI'nin Query()/Depends() varsayılan değer olarak çağrılması idiomatiktir (B008 yanlış pozitif).
+extend-immutable-calls = ["fastapi.Query", "fastapi.Depends"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101", "ANN"]
+"scripts/**" = ["S101"]
+# Next.js frontend'i test etmek için taklit backend (frontend/README.md);
+# gerçek servis kodu değil, uzun literal JSON sözlükleri idiomatik.
+"frontend/scripts/**" = ["S101", "S104", "E501"]
+# Streamlit sayfaları modül-seviyesi betiklerdir (üst düzeyde çalışan kod
+# idiomatiktir); dar tip ipuçları ve top-level çağrılar burada beklenir.
+"dashboard/**" = ["ANN", "B018"]
+
+[tool.mypy]
+python_version = "3.11"
+mypy_path = "src"
+strict = true
+warn_unused_ignores = true
+disallow_untyped_defs = true
+
+[[tool.mypy.overrides]]
+module = [
+  "faiss.*",
+  "rank_bm25.*",
+  "FlagEmbedding.*",
+  "sentence_transformers.*",
+  "sklearn.*",
+  "joblib.*",
+  "torch.optim.*",
+  "yaml.*",
+]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+addopts = "-ra -q"
+testpaths = ["tests"]
+markers = ["slow: model-loading or Ollama-backed tests"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+
+[tool.coverage.run]
+source = ["src/agentguard"]
+omit = ["src/agentguard/schemas/*", "scripts/*"]
+
+[tool.coverage.report]
+fail_under = 80
+
+[tool.importlinter]
+root_package = "agentguard"
+
+[[tool.importlinter.contracts]]
+name = "schemas has no internal dependencies"
+type = "forbidden"
+source_modules = ["agentguard.schemas"]
+forbidden_modules = [
+  "agentguard.api",
+  "agentguard.services",
+  "agentguard.features",
+  "agentguard.anomaly",
+  "agentguard.rag",
+  "agentguard.llm",
+  "agentguard.storage",
+]
+
+[[tool.importlinter.contracts]]
+name = "rag does not depend on anomaly"
+type = "forbidden"
+source_modules = ["agentguard.rag"]
+forbidden_modules = ["agentguard.anomaly"]
+
+[[tool.importlinter.contracts]]
+name = "layers are one-directional: api -> services -> domain -> features -> schemas"
+type = "layers"
+layers = [
+  "agentguard.api",
+  "agentguard.services",
+  "agentguard.anomaly | agentguard.rag | agentguard.llm",
+  "agentguard.features",
+  "agentguard.schemas",
+]

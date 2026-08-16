@@ -1,0 +1,36 @@
+{
+  "trace_id": "trace-normal-0001",
+  "agent_id": "demo-agent",
+  "agent_version": "1.0.0",
+  "session_id": "sess-1",
+  "started_at": "2026-08-15T09:00:00Z",
+  "ended_at": "2026-08-15T09:00:12Z",
+  "user_prompt_preview": "Kullanıcı: e-postam test@example.com, yardım eder misin?",
+  "tool_calls": [
+    {
+      "index": 0,
+      "tool_name": "db.query",
+      "started_at": "2026-08-15T09:00:01Z",
+      "ended_at": "2026-08-15T09:00:03Z",
+      "status": "ok",
+      "duration_ms": 2000,
+      "input_hash": "abc123def4560001",
+      "input_preview": "SELECT * FROM orders WHERE id=1",
+      "output_size_bytes": 512
+    },
+    {
+      "index": 1,
+      "tool_name": "api.search",
+      "started_at": "2026-08-15T09:00:04Z",
+      "ended_at": "2026-08-15T09:00:06Z",
+      "status": "ok",
+      "duration_ms": 2000,
+      "input_hash": "abc123def4560002",
+      "input_preview": "query=order status",
+      "output_size_bytes": 256
+    }
+  ],
+  "token_usage": { "prompt_tokens": 300, "completion_tokens": 150, "total_tokens": 450 },
+  "final_status": "completed",
+  "metadata": {}
+}

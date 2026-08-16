@@ -1,0 +1,14 @@
+<svg width="64" height="64" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="100" height="100" rx="22" fill="#09090F" />
+  <circle cx="50" cy="50" r="44" stroke="#EDEBFA" stroke-width="1.6" opacity="0.9" />
+  <path d="M 81.82 53.34 A 32 32 0 0 1 36.98 79.23" stroke="#EDEBFA" stroke-width="1.1" opacity="0.35" stroke-linecap="round" />
+  <path d="M 31.19 75.89 A 32 32 0 0 1 31.19 24.11" stroke="#EDEBFA" stroke-width="1.1" opacity="0.35" stroke-linecap="round" />
+  <path d="M 36.98 20.77 A 32 32 0 0 1 81.82 46.66" stroke="#EDEBFA" stroke-width="1.1" opacity="0.35" stroke-linecap="round" />
+  <path d="M 50 50 L 58.28 19.09 A 32 32 0 0 1 80.91 41.72 Z" fill="#EDEBFA" opacity="0.12" />
+  <path d="M 21 50 C 31 36, 69 36, 79 50 C 69 64, 31 64, 21 50 Z" stroke="#EDEBFA" stroke-width="1.6" fill="#EDEBFA" fill-opacity="0.08" stroke-linejoin="round" />
+  <circle cx="50" cy="50" r="4.2" fill="#EDEBFA" />
+  <circle cx="50" cy="50" r="1.9" fill="#09090F" fill-opacity="0.6" />
+  <circle cx="79.44" cy="82.70" r="2.7" fill="#EDEBFA" />
+  <circle cx="6.96" cy="59.15" r="2.7" fill="#EDEBFA" />
+  <circle cx="63.60" cy="8.15" r="2.7" fill="#EDEBFA" />
+</svg>
